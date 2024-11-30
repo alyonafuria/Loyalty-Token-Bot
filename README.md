@@ -26,12 +26,12 @@ To run this example, you'll need a modern web browser with JavaScript enabled.
 1. Clone this repository to your local machine:
 
    ```bash
-   git clone https://github.com/Telegram-Mini-Apps-Dev/vanilla-js-boilerplate
+   git clone https://github.com/alyonafuria/Loyalty-Token-Bot
 
 2. Navigate to the project directory:
 
 	```bash
-	cd vanilla-js-boilerplate
+	cd Loyalty-Token-Bot
 
 Open index.html in your preferred code editor or IDE.
 
