@@ -18,7 +18,7 @@ document.getElementById('theme-switch').addEventListener('change', (event) => {
 });
 
 function createToken() {
-  document.getElementById('create-token-form').classList.toggle('hidden');
+  document.getElementById('create-token-form').classList.remove('hidden');
 }
 
 function transferTokens() {
