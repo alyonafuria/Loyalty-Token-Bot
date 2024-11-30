@@ -5,8 +5,6 @@
   --text-color-dark: #ffffff;
   --button-border-color: #ff4f08;
   --button-bg-color: #ff4f08;
-  --success-color-light: #29296e; /* Cor do texto para tema claro */
-  --success-color-dark: #ffffff;  /* Cor do texto para tema escuro */
 }
 
 body {
@@ -18,19 +16,17 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 body.dark-theme {
   background-color: var(--bg-color-dark);
   color: var(--text-color-dark);
-  color: var(--success-color-dark);
 }
 
 body.light-theme {
   background-color: var(--bg-color-light);
   color: var(--text-color-light);
-  --success-color-light: #29296e;
-  color: var(--success-color-light);
 }
 
 .main-display {
@@ -51,6 +47,11 @@ body.light-theme {
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
   border-radius: 10%;
+  width: 200px;
+  text-align: center;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .main-button:hover {
@@ -65,10 +66,47 @@ body.light-theme {
 #success-message {
   font-size: 1.5rem;
   margin-top: 20px;
-  color: var(--success-color-dark); /* Padrão para tema escuro */
+  transition: color 0.2s ease;
 }
 
-/* Toggle Switch */
+.optional {
+  font-style: italic;
+  color: gray;
+  font-size: 0.9rem;
+}
+
+input::placeholder {
+  font-style: italic;
+  color: gray;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 400px;
+}
+
+form label {
+  font-size: 14px;
+  margin-bottom: 0px;
+}
+
+form input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+form input:last-of-type {
+  margin-bottom: 40px;
+}
+
 .switch {
   position: relative;
   display: inline-block;
@@ -91,7 +129,7 @@ body.light-theme {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  transition: .4s;
+  transition: background-color 0.2s ease;
   border-radius: 34px;
 }
 
@@ -103,7 +141,7 @@ body.light-theme {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  transition: .4s;
+  transition: transform 0.2s ease, background-color 0.2s ease;
   border-radius: 50%;
 }
 
