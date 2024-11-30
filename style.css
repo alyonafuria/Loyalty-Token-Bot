@@ -1,13 +1,16 @@
-body {
+:root {
   --bg-color-light: #ffffff;
   --bg-color-dark: #29296e;
   --text-color-light: #29296e;
   --text-color-dark: #ffffff;
   --button-border-color: #ff4f08;
   --button-bg-color: #ff4f08;
+  --success-color-light: #29296e; /* Cor do texto para tema claro */
+  --success-color-dark: #ffffff;  /* Cor do texto para tema escuro */
+}
+
+body {
   font: 12px/18px "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
-  background-color: var(--bg-color-dark);
-  color: var(--text-color-dark);
   margin: 0;
   padding: 0;
   display: flex;
@@ -17,9 +20,17 @@ body {
   height: 100vh;
 }
 
+body.dark-theme {
+  background-color: var(--bg-color-dark);
+  color: var(--text-color-dark);
+  color: var(--success-color-dark);
+}
+
 body.light-theme {
   background-color: var(--bg-color-light);
   color: var(--text-color-light);
+  --success-color-light: #29296e;
+  color: var(--success-color-light);
 }
 
 .main-display {
@@ -51,6 +62,13 @@ body.light-theme {
   display: none;
 }
 
+#success-message {
+  font-size: 1.5rem;
+  margin-top: 20px;
+  color: var(--success-color-dark); /* Padrão para tema escuro */
+}
+
+/* Toggle Switch */
 .switch {
   position: relative;
   display: inline-block;
