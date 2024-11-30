@@ -1,12 +1,12 @@
 <p align="center">
   <br>
-  <img width="240" src="./assets/tapps.png" alt="logo of telegram web apps">
+  <img width="240" src="https://github.com/user-attachments/assets/4003ed58-be7a-42f9-ab54-9625a6288d66" alt="MMM logo of telegram web apps">
   <br>
   <br>
 </p>
 
-# Telegram Mini Apps Basic Example
-This is a basic and straightforward Telegram Mini App(TMA) implemented using plain JavaScript, HTML, and CSS. This project aims to provide a minimalistic example of how to create a simple TWA and launch it within Telegram without relying on complex build tools or bleeding-edge libraries.
+# MMM Loyalty Starknet Telegram Mini App
+This is a basic MMM Loyalty Starknet Telegram Mini App(TMA) implemented using plain JavaScript, HTML, and CSS. This project aims to provide a minimalistic  simple TWA and launch it within Telegram.
 
 - App is available via direct link: https://t.me/simple_telegram_mini_app_bot/app
 - Or you can launch app with a bot menu button: https://t.me/simple_telegram_mini_app_bot
@@ -14,8 +14,6 @@ This is a basic and straightforward Telegram Mini App(TMA) implemented using pla
 
 ## Features
 - Minimalistic user interface.
-- No external libraries or frameworks used.
-- Easy to understand and modify.
 
 ## Getting Started
 
@@ -45,15 +43,6 @@ Open index.html in your preferred code editor or IDE.
 
 ### Customization
 Feel free to customize this web app to suit your needs. You can modify the HTML, CSS, and JavaScript files as required.
-
-## Contributing
-If you'd like to contribute to this project, please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Make your changes and commit them with descriptive messages.
-4. Push your branch to your fork.
-5. Create a pull request to the main repository's main branch.
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
