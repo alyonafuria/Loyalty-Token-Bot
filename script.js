@@ -1,55 +1,48 @@
-// Init TWA
-Telegram.WebApp.ready();
-Telegram.WebApp.onEvent("themeChanged", function () {
-  document.documentElement.className = Telegram.WebApp.colorScheme;
-});
-Telegram.WebApp.MainButton.setParams({ text: "Main Button" });
-Telegram.WebApp.MainButton.onClick(function () {
-  Telegram.WebApp.showAlert("Main Button was clicked");
-});
-Telegram.WebApp.MainButton.show();
+document.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.add('dark-theme');
 
-document.getElementById('theme-switch').addEventListener('change', (event) => {
-  if (event.target.checked) {
-    document.body.classList.remove('dark-theme');
-  } else {
-    document.body.classList.add('dark-theme');
-  }
+  document.getElementById('theme-switch').addEventListener('change', (event) => {
+      if (event.target.checked) {
+          document.body.classList.remove('dark-theme');
+          document.body.classList.add('light-theme');
+      } else {
+          document.body.classList.remove('light-theme');
+          document.body.classList.add('dark-theme');
+      }
+  });
 });
 
 function createToken() {
-  document.getElementById('create-token-form').classList.remove('hidden');
+  const form = document.getElementById('create-token-form');
+  form.classList.remove('hidden'); 
+  form.scrollIntoView({ behavior: 'smooth' });
 }
 
 function transferTokens() {
-  document.getElementById('transfer-token-form').classList.toggle('hidden');
+  console.log("Transfer Tokens logic here.");
 }
 
-function deployToken() {
-  // Logic for deploying the token goes here
-  // On successful deployment:
-  showSuccessMessage();
+function deployToken(event) {
+  event.preventDefault();
+
+  const tokenName = document.getElementById('token-name').value;
+  const tokenSymbol = document.getElementById('token-symbol').value;
+  const tokenSupply = document.getElementById('token-supply').value;
+  const tokenAddress = document.getElementById('token-address').value;
+
+  console.log("Token Name:", tokenName);
+  console.log("Token Symbol:", tokenSymbol);
+  console.log("Token Supply:", tokenSupply);
+  console.log("Token Address:", tokenAddress);
+
+  const form = document.getElementById('create-token-form');
+  form.classList.add('hidden');
+
+  const successMessage = document.getElementById('success-message');
+  successMessage.classList.remove('hidden');
+  successMessage.scrollIntoView({ behavior: 'smooth' });
 }
 
-function showSuccessMessage() {
-  document.getElementById('button-container').classList.add('hidden');
-  document.getElementById('success-message').classList.remove('hidden');
-  setTimeout(() => {
-    document.getElementById('button-container').classList.remove('hidden');
-    document.getElementById('success-message').classList.add('hidden');
-  }, 4000);
-}
-
-function createNewToken() {
-  document.getElementById('create-token-form').classList.add('hidden');
-  document.getElementById('button-container').classList.remove('hidden');
-  document.getElementById('success-message').classList.add('hidden');
-}
-
-import * as starknet from 'https://cdn.jsdelivr.net/npm/starknet@5.19.5/+esm';
-const starkProvider = new starknet.SequencerProvider({ baseUrl: starknet.constants.BaseUrl.SN_MAIN });
-async function getChainId() {
-  const chainId = await starkProvider.getChainId();
-  console.log("StarkNet Chain ID:", chainId);
-}
-getChainId();
+window.createToken = createToken;
+window.transferTokens = transferTokens;
+window.deployToken = deployToken;
