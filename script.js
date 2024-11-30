@@ -69,6 +69,12 @@ function transferTokens() {
   document.getElementById('transfer-token-form').classList.toggle('hidden');
 }
 
+function deployToken() {
+  // Logic for deploying the token goes here
+  // On successful deployment:
+  showSuccessMessage();
+}
+
 // Function to show success message and create new token button
 function showSuccessMessage() {
   document.getElementById('button-container').classList.add('hidden');
