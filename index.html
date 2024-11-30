@@ -8,28 +8,29 @@
     <link rel="stylesheet" href="style.css" />
   </head>
 
-  <body>
+  <body class="dark-theme">
+    <header>
+      <label class="switch">
+        <input type="checkbox" id="theme-switch">
+        <span class="slider round"></span>
+      </label>
+    </header>
     <main class="main-display">
-      <h1>Loyalty Token Bot</h1>
-      <p class="text">
-        Our bot simplifies the process of creating and managing loyalty tokens
-        for your business, transforming the way you reward and engage with your
-        customers.
-      </p>
+      <img src="path/to/image.png" alt="MMM Loyalty Token Bot" width="120" height="120">
+      <h1>MMM Loyalty Token Bot</h1>
       <div id="button-container">
-        <button class="main-button" onclick="createToken();">
-          Create a token
-        </button>
+        <button class="main-button" onclick="createToken();">Create Token</button>
+        <button class="main-button" onclick="transferTokens();">Transfer Tokens</button>
         <form id="create-token-form" class="hidden">
           <label for="token-name">Name of the token:</label>
-          <input type="text" name="token-name" id="token-name" placeholder="Stark Coffee Co" required />
+          <input type="text" name="token-name" id="token-name" required>
           <label for="token-symbol">Symbol of the token:</label>
-          <input type="text" name="token-symbol" id="token-symbol" placeholder="STRKCOFFEE" required />
+          <input type="text" name="token-symbol" id="token-symbol" required>
           <label for="token-supply">Custom supply (if needed):</label>
-          <input type="text" name="token-supply" id="token-supply" placeholder="420000000000" />
+          <input type="text" name="token-supply" id="token-supply">
           <label for="token-address">Wallet address of the owner:</label>
-          <input type="text" name="token-address" id="token-address" placeholder="0x1234...abcd" required />
-          <button class="main-button" type="submit" onclick="deployToken();">Deploy token</button>
+          <input type="text" name="token-address" id="token-address" required>
+          <button class="main-button" type="submit" onclick="deployToken();">Deploy Token</button>
         </form>
       </div>
       <div id="success-message" class="hidden">
@@ -38,9 +39,6 @@
         <button class="main-button" onclick="transferTokens();">Transfer tokens</button>
       </div>
     </main>
-    <div id="viewport"></div>
-    <div id="viewport-params-size"></div>
-    <div id="viewport-params-expand"></div>
     <script src="script.js"></script>
   </body>
 </html>
