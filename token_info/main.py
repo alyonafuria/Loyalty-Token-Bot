@@ -3,7 +3,7 @@ import json
 import os
 from datetime import datetime
 from aiogram import Bot, Dispatcher, F
-from aiogram.types import Message
+from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -23,10 +23,28 @@ class TokenStates(StatesGroup):
     waiting_for_supply = State()
     waiting_for_recipient = State()
 
-@dp.message(Command("start"))
-async def cmd_start(message: Message, state: FSMContext):
+async def on_start():
+    # Create a big pink start button
+    start_kb = ReplyKeyboardMarkup(
+        keyboard=[[KeyboardButton(text="🚀 START")]],  # Using emoji and caps for visibility
+        resize_keyboard=True,
+        is_persistent=True
+    )
+    return start_kb
+
+@dp.message(F.text == "🚀 START")  # Handle the custom start button
+async def handle_start_button(message: Message, state: FSMContext):
     await message.answer("Hello! Choose the name of your coin: ")
     await state.set_state(TokenStates.waiting_for_name)
+
+@dp.message(Command("start"))
+async def cmd_start(message: Message, state: FSMContext):
+    # Show the start button immediately
+    start_kb = await on_start()
+    await message.answer(
+        "Welcome to Token Creator Bot! 🎉\nPress 🚀 START to create your token!",
+        reply_markup=start_kb
+    )
 
 @dp.message(StateFilter(TokenStates.waiting_for_name))
 async def get_name(message: Message, state: FSMContext):
@@ -86,12 +104,16 @@ async def get_recipient(message: Message, state: FSMContext):
     with open(JSON_FILE_PATH, 'w') as f:
         json.dump(tokens, f, indent=4)
 
+    # Show the start button with the completion message
+    start_kb = await on_start()
     await message.answer(
         f"Amazing! Here is summary of your new token:\n"
         f"Token name: {data['name']}\n"
         f"Token symbol: {data['symbol']}\n"
         f"Token supply: {data['supply']}\n"
-        f"Recipient address: {data['recipient']}"
+        f"Recipient address: {data['recipient']}\n\n"
+        f"Press 🚀 START to create another token!",
+        reply_markup=start_kb
     )
     await state.clear()
 
@@ -101,14 +123,30 @@ async def view_tokens(message: Message):
     try:
         with open(JSON_FILE_PATH, 'r') as f:
             tokens = json.load(f)
-        await message.answer(f"Total tokens created: {len(tokens)}")
+        # Show the start button with the view message
+        start_kb = await on_start()
+        await message.answer(
+            f"Total tokens created: {len(tokens)}\n"
+            f"Press 🚀 START to create another token!",
+            reply_markup=start_kb
+        )
     except FileNotFoundError:
-        await message.answer("No tokens created yet")
+        start_kb = await on_start()
+        await message.answer(
+            "No tokens created yet\n"
+            "Press 🚀 START to create your first token!",
+            reply_markup=start_kb
+        )
 
 @dp.message(Command("cancel"))
 async def cancel(message: Message, state: FSMContext):
     await state.clear()
-    await message.answer("If you need something else press /start.")
+    # Show the start button with the cancel message
+    start_kb = await on_start()
+    await message.answer(
+        "Operation cancelled. Press 🚀 START to create a new token.",
+        reply_markup=start_kb
+    )
 
 async def main():
     try:
