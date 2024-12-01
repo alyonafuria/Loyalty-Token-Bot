@@ -106,12 +106,24 @@ async def get_recipient(message: Message, state: FSMContext):
 
     # Show the start button with the completion message
     start_kb = await on_start()
+    
+    # Count how many tokens are ahead in queue
+    try:
+        with open(JSON_FILE_PATH, 'r') as f:
+            all_tokens = json.load(f)
+            queue_position = len([t for t in all_tokens if t['timestamp'] < token_entry['timestamp']])
+    except:
+        queue_position = 0
+    
     await message.answer(
-        f"Amazing! Here is summary of your new token:\n"
+        f"✨ Token request submitted!\n\n"
         f"Token name: {data['name']}\n"
         f"Token symbol: {data['symbol']}\n"
         f"Token supply: {data['supply']}\n"
         f"Recipient address: {data['recipient']}\n\n"
+        f"Queue position: #{queue_position + 1}\n"
+        f"Estimated wait time: {queue_position * 2} minutes\n\n"
+        f"You will receive another message when your token is deployed with the contract address.\n\n"
         f"Press 🚀 START to create another token!",
         reply_markup=start_kb
     )
@@ -148,8 +160,34 @@ async def cancel(message: Message, state: FSMContext):
         reply_markup=start_kb
     )
 
+async def check_deployment_status():
+    """Check deployment_result.json for new deployments and notify users"""
+    while True:
+        try:
+            if os.path.exists(os.path.join(PROJECT_ROOT, "..", "deployment_result.json")):
+                with open(os.path.join(PROJECT_ROOT, "..", "deployment_result.json"), 'r') as f:
+                    result = json.load(f)
+                    if result['status'] == 'success':
+                        message = (
+                            f"🎉 Your token has been deployed successfully!\n\n"
+                            f"Token Name: {result['tokenName']}\n"
+                            f"Token Symbol: {result['tokenSymbol']}\n"
+                            f"Contract Address: {result['contractAddress']}\n"
+                            f"Transaction Hash: {result['transactionHash']}\n\n"
+                            f"✨ You can now import this token in your wallet using the contract address."
+                        )
+                        await bot.send_message(result['userId'], message)
+                        # Remove the result file after sending notification
+                        os.remove(os.path.join(PROJECT_ROOT, "..", "deployment_result.json"))
+        except Exception as e:
+            print(f"Error checking deployment status: {e}")
+        await asyncio.sleep(5)  # Check every 5 seconds
+
 async def main():
     try:
+        # Start the deployment status checker
+        asyncio.create_task(check_deployment_status())
+        # Start the bot
         await dp.start_polling(bot, skip_updates=True)
     finally:
         await bot.session.close()

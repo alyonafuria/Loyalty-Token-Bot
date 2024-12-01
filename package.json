@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "chokidar": "^4.0.1",
     "starknet": "^6.20.3"
   }
 }

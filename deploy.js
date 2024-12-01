@@ -1,4 +1,3 @@
-require("dotenv").config();
 const {
   Provider,
   Account,
@@ -12,12 +11,17 @@ const fs = require("fs");
 
 // Initialize provider
 const provider = new Provider({
-  baseUrl:
-    "https://rpc.nethermind.io/sepolia-juno?apikey=dcwhVRAvIpj7BXAatW9OHkZrNljTB0hghrqli8DXcfyYcd3tO301QbpulDSrGtpM",
+  sequencer: {
+    baseUrl: 'https://rpc.nethermind.io/sepolia-juno'
+  },
+  rpc: {
+    nodeUrl: "https://rpc.nethermind.io/sepolia-juno/v0_6?apikey=dcwhVRAvIpj7BXAatW9OHkZrNljTB0hghrqli8DXcfyYcd3tO301QbpulDSrGtpM",
+  }
 });
 
 // Initialize account
-const privateKey = process.env.PRIVATE_KEY;
+const privateKey =
+  "0xf6dbcf3d6a1651de8b6df0cdcdb7b0ed61dbc28de62041bb8c649f0e29f5a0"; // Replace with your actual private key
 const signer = new Signer(privateKey);
 const accountAddress =
   "0x7a20c11d1afadf759ba0c8e84135cd8cc20dd8c9c77f48f4761d2ddee91e231"; // Replace with your actual account address
@@ -31,14 +35,17 @@ const compiledContractClass = JSON.parse(
   )
 );
 
+// Read token configuration
+const tokenConfig = JSON.parse(fs.readFileSync("./token_config.json", "utf-8"));
+
 // Class hash and constructor calldata
 const compiledClassHash =
   "0x03da8692ea3d473f759ff81fd032d38531bc85686c6ecdead55b21e2b4bffd86";
 const initialTk = BigInt(20); // 20 NIT
 const erc20CallData = new CallData(compiledContractClass.abi);
 const constructorCalldata = erc20CallData.compile("constructor", {
-  name: "niceToken",
-  symbol: "NIT",
+  name: tokenConfig.tokenName,
+  symbol: tokenConfig.tokenSymbol,
   fixed_supply: uint256.bnToUint256(initialTk),
   recipient: account.address,
 });
@@ -60,6 +67,18 @@ async function deployAndSendTokens() {
     );
     console.log("Transaction hash:", deployResponse.deploy.transaction_hash);
 
+    // Save deployment result with user info
+    const deploymentResult = {
+      status: 'success',
+      contractAddress: deployResponse.deploy.contract_address,
+      transactionHash: deployResponse.deploy.transaction_hash,
+      tokenName: tokenConfig.tokenName,
+      tokenSymbol: tokenConfig.tokenSymbol,
+      timestamp: new Date().toISOString(),
+      userId: tokenConfig.userId
+    };
+    fs.writeFileSync('./deployment_result.json', JSON.stringify(deploymentResult, null, 2));
+
     // Wait for the transaction to be accepted
     await provider.waitForTransaction(deployResponse.deploy.transaction_hash);
 
@@ -72,9 +91,8 @@ async function deployAndSendTokens() {
     erc20.connect(account);
 
     // Send tokens to the recipient
-    const recipientAddress =
-      "0x017a859f98a7d34fc6393c99494b40555afd87344aed0b2c06dccfa992e42adf"; // Replace with the recipient's account address
-    const amount = BigInt(1); // 1 token (assuming 18 decimals)
+    const recipientAddress = tokenConfig.recipientAddress;
+    const amount = BigInt(tokenConfig.transferAmount);
     const transferResponse = await erc20.transfer(recipientAddress, amount);
 
     console.log(

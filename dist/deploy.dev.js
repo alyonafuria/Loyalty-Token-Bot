@@ -1,7 +1,5 @@
 "use strict";
 
-require("dotenv").config();
-
 var _require = require("starknet"),
     Provider = _require.Provider,
     Account = _require.Account,
@@ -18,21 +16,24 @@ var provider = new Provider({
   baseUrl: "https://rpc.nethermind.io/sepolia-juno?apikey=dcwhVRAvIpj7BXAatW9OHkZrNljTB0hghrqli8DXcfyYcd3tO301QbpulDSrGtpM"
 }); // Initialize account
 
-var privateKey = process.env.PRIVATE_KEY;
+var privateKey = "0xf6dbcf3d6a1651de8b6df0cdcdb7b0ed61dbc28de62041bb8c649f0e29f5a0"; // Replace with your actual private key
+
 var signer = new Signer(privateKey);
 var accountAddress = "0x7a20c11d1afadf759ba0c8e84135cd8cc20dd8c9c77f48f4761d2ddee91e231"; // Replace with your actual account address
 
 var account = new Account(provider, accountAddress, signer); // Read and parse the compiled contract class JSON
 
-var compiledContractClass = JSON.parse(fs.readFileSync("./projecthack/target/release/token_repo_ERC20_Loyalty.contract_class.json", "utf-8")); // Class hash and constructor calldata
+var compiledContractClass = JSON.parse(fs.readFileSync("./projecthack/target/release/token_repo_ERC20_Loyalty.contract_class.json", "utf-8")); // Read token configuration
+
+var tokenConfig = JSON.parse(fs.readFileSync("./token_config.json", "utf-8")); // Class hash and constructor calldata
 
 var compiledClassHash = "0x03da8692ea3d473f759ff81fd032d38531bc85686c6ecdead55b21e2b4bffd86";
 var initialTk = BigInt(20); // 20 NIT
 
 var erc20CallData = new CallData(compiledContractClass.abi);
 var constructorCalldata = erc20CallData.compile("constructor", {
-  name: "niceToken",
-  symbol: "NIT",
+  name: tokenConfig.tokenName,
+  symbol: tokenConfig.tokenSymbol,
   fixed_supply: uint256.bnToUint256(initialTk),
   recipient: account.address
 });
@@ -67,10 +68,8 @@ function deployAndSendTokens() {
           erc20 = new Contract(compiledContractClass.abi, deployResponse.deploy.contract_address, provider);
           erc20.connect(account); // Send tokens to the recipient
 
-          recipientAddress = "0x017a859f98a7d34fc6393c99494b40555afd87344aed0b2c06dccfa992e42adf"; // Replace with the recipient's account address
-
-          amount = BigInt(1); // 1 token (assuming 18 decimals)
-
+          recipientAddress = tokenConfig.recipientAddress;
+          amount = BigInt(tokenConfig.transferAmount);
           _context.next = 15;
           return regeneratorRuntime.awrap(erc20.transfer(recipientAddress, amount));
 
