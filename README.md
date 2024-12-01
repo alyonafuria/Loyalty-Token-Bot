@@ -5,44 +5,60 @@
   <br>
 </p>
 
-# MMM Loyalty Starknet Telegram Mini App
-This is a basic MMM Loyalty Starknet Telegram Mini App(TMA) implemented using plain JavaScript, HTML, and CSS. This project aims to provide a minimalistic  simple TWA and launch it within Telegram.
+# MMM Loyalty Token Bot
 
-- App is available via direct link: https://t.me/simple_telegram_mini_app_bot/app
-- Or you can launch app with a bot menu button: https://t.me/simple_telegram_mini_app_bot
-- Deployment URL: [https://twa-dev.github.io/simple-telegram-web-app/](https://telegram-mini-apps-dev.github.io/vanilla-js-boilerplate/)
+A production-ready Telegram bot that enables users to create and deploy custom ERC20 loyalty tokens on the Starknet blockchain. Built with Python and Node.js, running 24/7 on our secure server.
 
-## Features
-- Minimalistic user interface.
+## 🚀 Access the Bot
 
-## Getting Started
+The bot is live and ready to use! No installation needed:
 
-### Prerequisites
+1. Open Telegram
+2. Search for `@LoyaltyTokenBot`
+3. Start creating your tokens!
 
-To run this example, you'll need a modern web browser with JavaScript enabled.
+## ✨ Features
 
-### Installation
+- Create custom ERC20 tokens directly through Telegram
+- Automatic deployment to Starknet Sepolia network
+- Real-time deployment status updates
+- Instant token creation confirmation
+- Secure and reliable token deployment
+- 24/7 operation
 
-1. Clone this repository to your local machine:
+## 🎯 How to Use
 
-   ```bash
-   git clone https://github.com/alyonafuria/Loyalty-Token-Bot
+1. Start a chat with the bot
+2. Click 🚀 START
+3. Follow the simple prompts:
+   - Enter token name
+   - Enter token symbol
+   - Set initial supply
+   - Specify recipient address
+4. Wait for confirmation
+5. Receive your deployed token address
 
-2. Navigate to the project directory:
+## 🔧 Technical Details
 
-	```bash
-	cd Loyalty-Token-Bot
+- **Bot**: Python (aiogram)
+- **Blockchain**: Starknet.js
+- **Network**: Starknet Sepolia
+- **Deployment**: DigitalOcean + PM2
+- **Token Standard**: ERC20
 
-Open index.html in your preferred code editor or IDE.
+## 📝 Note
 
-### Usage
-1. Open index.html in your preferred code editor or IDE.
-2. Make your changes
-3. Create your own GitHub repository, commit and push your updates.
-4. Go to your repository GitHub page and open Settings. Check the Pages tab and Build and deployment section. If GitHub Actions option was selected, assets should be deployed to Pages and there will be an URL like `https://<username>.github.io/simple-telegram-mini-app/`. You can copy this URL and use it with [BotFather](https://tg.me/BotFather) bot to create your very own TWA.
+This bot is already running on our production server. You don't need to set up anything - just find us on Telegram and start creating tokens!
 
-### Customization
-Feel free to customize this web app to suit your needs. You can modify the HTML, CSS, and JavaScript files as required.
+## 🔒 Security
 
-## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+- Secure server deployment
+- Protected blockchain interactions
+- Automated error handling
+- Regular security updates
+
+## 📞 Support
+
+Having issues or questions? Contact us:
+- Telegram: @mmm_support
+- Email: support@mmm.com
