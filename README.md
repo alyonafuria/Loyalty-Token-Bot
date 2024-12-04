@@ -14,7 +14,11 @@ A production-ready Telegram bot that enables users to create and deploy custom E
 The bot is live and ready to use! No installation needed:
 
 1. Open Telegram
+<<<<<<< Updated upstream
 2. Search for `@LoyaltyTokenBot`
+=======
+2. Search for `@mmm_loyalty_token_bot`
+>>>>>>> Stashed changes
 3. Start creating your tokens!
 
 ## ✨ Features
@@ -51,6 +55,7 @@ The bot is live and ready to use! No installation needed:
 This bot is already running on our production server. You don't need to set up anything - just find us on Telegram and start creating tokens!
 
 ## 🔒 Security
+<<<<<<< Updated upstream
 
 - Secure server deployment
 - Protected blockchain interactions
@@ -62,3 +67,20 @@ This bot is already running on our production server. You don't need to set up a
 Having issues or questions? Contact us:
 - Telegram: @mmm_support
 - Email: support@mmm.com
+=======
+
+- Secure server deployment
+- Protected blockchain interactions
+- Automated error handling
+- Regular security updates
+
+## 📞 Support
+
+Having issues or questions? Contact us:
+- Telegram: @mmm_support
+- Email: support@mmm.com
+
+## ⚖️ License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+>>>>>>> Stashed changes

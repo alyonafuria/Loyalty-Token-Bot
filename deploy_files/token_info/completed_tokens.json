@@ -1,0 +1,46 @@
+[
+    {
+        "timestamp": "2024-12-01T07:28:48.228618",
+        "user_id": 311235992,
+        "username": "alyonafuria",
+        "token_data": {
+            "name": "Frog",
+            "symbol": "FR",
+            "supply": "1",
+            "recipient": "0x001c631739baf3a8adaa14bb4c847f3cbaf47635c3d604ce8a9fdf08d758dff0"
+        }
+    },
+    {
+        "timestamp": "2024-12-01T07:33:10.502638",
+        "user_id": 455070969,
+        "username": "panedzbor",
+        "token_data": {
+            "name": "WhereIsMyCoin",
+            "symbol": "1",
+            "supply": "1",
+            "recipient": "0x05C4aa44F730638522E150290089Ec43539043f0ADd29c68BF757C3d871E8Ba5"
+        }
+    },
+    {
+        "timestamp": "2024-12-01T07:36:08.412165",
+        "user_id": 1535985256,
+        "username": "brownberliner",
+        "token_data": {
+            "name": "Helloooooo",
+            "symbol": "Hel",
+            "supply": "1",
+            "recipient": "0x017a859f98a7d34fc6393c99494b40555afd87344aed0b2c06dccfa992e42adf"
+        }
+    },
+    {
+        "timestamp": "2024-12-01T07:36:10.466998",
+        "user_id": 311235992,
+        "username": "alyonafuria",
+        "token_data": {
+            "name": "Troll",
+            "symbol": "TR",
+            "supply": "1",
+            "recipient": "0x001c631739baf3a8adaa14bb4c847f3cbaf47635c3d604ce8a9fdf08d758dff0"
+        }
+    }
+]

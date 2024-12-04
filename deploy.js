@@ -20,31 +20,34 @@ const provider = new Provider({
 const privateKey = process.env.PRIVATE_KEY;
 const signer = new Signer(privateKey);
 const accountAddress =
-  "0x7a20c11d1afadf759ba0c8e84135cd8cc20dd8c9c77f48f4761d2ddee91e231"; // Replace with your actual account address
+  "0x7a20c11d1afadf759ba0c8e84135cd8cc20dd8c9c77f48f4761d2ddee91e231";
 const account = new Account(provider, accountAddress, signer);
-
-// Read and parse the compiled contract class JSON
-const compiledContractClass = JSON.parse(
-  fs.readFileSync(
-    "./projecthack/target/release/token_repo_ERC20_Loyalty.contract_class.json",
-    "utf-8"
-  )
-);
-
-// Class hash and constructor calldata
-const compiledClassHash =
-  "0x03da8692ea3d473f759ff81fd032d38531bc85686c6ecdead55b21e2b4bffd86";
-const initialTk = BigInt(20); // 20 NIT
-const erc20CallData = new CallData(compiledContractClass.abi);
-const constructorCalldata = erc20CallData.compile("constructor", {
-  name: "niceToken",
-  symbol: "NIT",
-  fixed_supply: uint256.bnToUint256(initialTk),
-  recipient: account.address,
-});
 
 async function deployAndSendTokens() {
   try {
+    // Read token configuration
+    const tokenConfig = JSON.parse(fs.readFileSync("./token_config.json", "utf-8"));
+
+    // Read and parse the compiled contract class JSON
+    const compiledContractClass = JSON.parse(
+      fs.readFileSync(
+        "./projecthack/target/release/token_repo_ERC20_Loyalty.contract_class.json",
+        "utf-8"
+      )
+    );
+
+    // Class hash and constructor calldata
+    const compiledClassHash =
+      "0x03da8692ea3d473f759ff81fd032d38531bc85686c6ecdead55b21e2b4bffd86";
+    const initialSupply = BigInt(tokenConfig.supply || 1000000);
+    const erc20CallData = new CallData(compiledContractClass.abi);
+    const constructorCalldata = erc20CallData.compile("constructor", {
+      name: tokenConfig.name,
+      symbol: tokenConfig.symbol,
+      fixed_supply: uint256.bnToUint256(initialSupply),
+      recipient: tokenConfig.recipient || account.address,
+    });
+
     // Deploy the contract
     console.log("Deployment Tx - ERC20 Contract to Starknet...");
     const deployResponse = await account.declareAndDeploy({
@@ -60,34 +63,25 @@ async function deployAndSendTokens() {
     );
     console.log("Transaction hash:", deployResponse.deploy.transaction_hash);
 
-    // Wait for the transaction to be accepted
-    await provider.waitForTransaction(deployResponse.deploy.transaction_hash);
+    // Write deployment result
+    const result = {
+      status: "success",
+      contractAddress: deployResponse.deploy.contract_address,
+      transactionHash: deployResponse.deploy.transaction_hash,
+      userId: tokenConfig.userId,
+    };
+    fs.writeFileSync("deployment_result.json", JSON.stringify(result, null, 2));
 
-    // Create a new contract instance
-    const erc20 = new Contract(
-      compiledContractClass.abi,
-      deployResponse.deploy.contract_address,
-      provider
-    );
-    erc20.connect(account);
-
-    // Send tokens to the recipient
-    const recipientAddress =
-      "0x017a859f98a7d34fc6393c99494b40555afd87344aed0b2c06dccfa992e42adf"; // Replace with the recipient's account address
-    const amount = BigInt(1); // 1 token (assuming 18 decimals)
-    const transferResponse = await erc20.transfer(recipientAddress, amount);
-
-    console.log(
-      "Transfer transaction hash:",
-      transferResponse.transaction_hash
-    );
-
-    // Wait for the transfer transaction to be accepted
-    await provider.waitForTransaction(transferResponse.transaction_hash);
-
-    console.log("Tokens transferred successfully");
+    console.log("Deployment completed successfully!");
   } catch (error) {
-    console.error("Error deploying contract or sending tokens:", error);
+    console.error("Error deploying contract:", error);
+    // Write error result
+    const result = {
+      status: "error",
+      error: error.message,
+      userId: JSON.parse(fs.readFileSync("./token_config.json", "utf-8")).userId,
+    };
+    fs.writeFileSync("deployment_result.json", JSON.stringify(result, null, 2));
   }
 }
 
